@@ -12,11 +12,7 @@
     avatar: "G"
   };
 
-  const DEFAULT_LOGS = [
-    { id: "log_1", text: "Daily Streak award claimed successfully! 🌟", time: "Just now", category: "streak" },
-    { id: "log_2", text: "You completed task 'Revise Data Structures' (+50 XP)", time: "1 hour ago", category: "task" },
-    { id: "log_3", text: "Pomodoro session logged (+100 XP)", time: "2 hours ago", category: "timer" }
-  ];
+  const DEFAULT_LOGS = [];
 
   // --- LOCAL STORAGE KEY LOADERS ---
   function getProfile() {
