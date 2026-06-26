@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniHub · Home — Your Academic Command Centre</title>
+  <meta name="description" content="UniHub brings together lecture tracking, GPA calculation, focus tools, and resources for modern students — all in one beautifully designed platform.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav id="main-nav" class="navbar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="navbar-brand" data-page="index.html">
+      <div class="brand-icon">
+        <i class="fas fa-graduation-cap"></i>
+      </div>
+      <span class="brand-text">Uni<span>Hub</span></span>
+      <span class="badge-active">Student Workspace</span>
+    </a>
+
+    <ul class="nav-links" id="nav-links" role="list">
+      <li><a href="index.html"     data-page="index.html"     id="nav-home"><i class="fas fa-house"></i> Home</a></li>
+      <li><a href="dashboard.html" data-page="dashboard.html" id="nav-dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+      <li><a href="focus.html"     data-page="focus.html"     id="nav-focus"><i class="fas fa-clock"></i> Focus</a></li>
+      <li><a href="gpa.html"       data-page="gpa.html"       id="nav-gpa"><i class="fas fa-calculator"></i> GPA</a></li>
+      <li><a href="resources.html" data-page="resources.html" id="nav-resources"><i class="fas fa-book-open"></i> Resources</a></li>
+      <li><a href="focus.html"     class="nav-cta"><i class="fas fa-bolt"></i> Focus Mode</a></li>
+    </ul>
+
+    <div class="navbar-actions">
+      <!-- Mute Switcher -->
+      <button id="volume-toggle" class="nav-btn" title="Toggle audio alert sound">
+        <i class="fas fa-volume-up"></i>
+      </button>
+
+      <!-- Theme Switcher -->
+      <button id="theme-toggle" class="nav-btn" title="Toggle theme">
+        <i class="fas fa-sun"></i>
+      </button>
+
+      <!-- Notifications Bell -->
+      <div style="position: relative;">
+        <button id="bell-toggle" class="nav-btn" title="Activity logs">
+          <i class="fas fa-bell"></i>
+          <span id="bell-badge" class="badge-count" style="display: none;">0</span>
+        </button>
+        <!-- Bell Dropdown -->
+        <div id="bell-dropdown" class="dropdown-menu glass-card">
+          <div class="dropdown-header">
+            <h4>Activity Logs</h4>
+            <button id="clear-notifications" class="dropdown-clear-btn">Clear</button>
+          </div>
+          <div id="notification-list" class="notification-list">
+            <!-- Dynamic elements injected by nav.js -->
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-divider"></div>
+
+      <!-- Profile Dropdown -->
+      <div style="position: relative;">
+        <button id="profile-trigger" class="profile-trigger">
+          <div class="profile-avatar">G</div>
+          <span class="profile-name">Guest</span>
+          <i class="fas fa-chevron-down profile-chevron"></i>
+        </button>
+        <!-- Profile Dropdown Menu -->
+        <div id="profile-dropdown" class="dropdown-menu profile-menu glass-card">
+          <div class="profile-menu-header">
+            <p class="full-name">Guest Student</p>
+            <p class="email">guest@unihub.edu</p>
+            <div class="profile-xp-nav"><i class="fas fa-bolt" style="color:var(--accent-orange);margin-right:4px;"></i><span id="nav-profile-xp">0</span> Focus XP</div>
+          </div>
+          <button id="edit-profile-btn" class="profile-menu-btn">
+            <i class="fas fa-user-edit"></i> Edit Profile
+          </button>
+          <button id="reset-data-btn" class="profile-menu-btn btn-reset-data">
+            <i class="fas fa-undo"></i> Reset Site Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Hamburger menu trigger -->
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation menu">
+        <i class="fas fa-bars" id="nav-hamburger-icon"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <div class="page-content">
+    <section id="hero">
+      <div class="blob blob1"></div>
+      <div class="blob blob2"></div>
+      <div class="blob blob3"></div>
+
+      <div class="hero-inner">
+        <!-- Left content -->
+        <div class="hero-content">
+          <div class="hero-badge reveal hero-instant">
+            <i class="fas fa-bolt"></i> AI-Powered Study Platform
+          </div>
+          <h1 class="hero-title reveal hero-instant reveal-d1">
+            Focus on<br><span class="hl">What Matters</span><br>Most
+          </h1>
+          <p class="hero-desc reveal hero-instant reveal-d2">
+            Track your lectures, calculate your GPA, time your focus sessions, and manage your entire academic journey — all in one beautifully designed platform built for modern students.
+          </p>
+          <div class="hero-btns reveal hero-instant reveal-d3">
+            <a href="focus.html" class="btn-primary">
+              <i class="fas fa-rocket"></i> Start Focusing
+            </a>
+            <a href="#features" class="btn-outline">
+              <i class="fas fa-play"></i> See Features
+            </a>
+          </div>
+          <div class="hero-stats reveal hero-instant reveal-d4">
+            <div class="stat-item">
+              <div class="stat-num" id="hero-stat-sessions">—</div>
+              <div class="stat-label">Sessions Today</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num" id="hero-stat-tasks">—</div>
+              <div class="stat-label">Tasks Tracked</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num" id="hero-stat-gpa">—</div>
+              <div class="stat-label">Saved Semesters</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Illustration -->
+        <div class="hero-illus reveal hero-instant reveal-d2">
+          <div class="illu-card glass-card">
+            <div class="illu-head">
+              <span class="illu-title-text">📊 My Progress</span>
+              <span class="illu-badge-pill">Live</span>
+            </div>
+            <div id="hero-progress-list">
+              <div class="prog-item">
+                <div class="prog-label"><span>Computer Science</span><span>92%</span></div>
+                <div class="prog-track"><div class="prog-fill pf2" style="width:0%" data-w="92%"></div></div>
+              </div>
+              <div class="prog-item">
+                <div class="prog-label"><span>Mathematics</span><span>78%</span></div>
+                <div class="prog-track"><div class="prog-fill pf1" style="width:0%" data-w="78%"></div></div>
+              </div>
+              <div class="prog-item">
+                <div class="prog-label"><span>Physics</span><span>65%</span></div>
+                <div class="prog-track"><div class="prog-fill pf3" style="width:0%" data-w="65%"></div></div>
+              </div>
+            </div>
+            <div class="illu-gpa">
+              <div>
+                <div class="illu-gpa-label">Overall GPA</div>
+                <div class="illu-gpa-sub" id="gpa-trend">▲ Tracking progress</div>
+              </div>
+              <div class="illu-gpa-value" id="hero-gpa">—</div>
+            </div>
+          </div>
+          <div class="float-card fc1 glass-card">
+            <i class="fas fa-check-circle"></i> Focus sessions: <span id="fc-sessions">0</span>
+          </div>
+          <div class="float-card fc2 glass-card">
+            <i class="fas fa-fire"></i> <span id="fc-streak">0</span>-day streak!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section id="features">
+      <div class="section-wrap">
+        <span class="section-tag reveal">✦ Features</span>
+        <h2 class="section-title reveal">Everything you need<br>to excel academically</h2>
+        <p class="section-desc reveal">UniHub brings together the most powerful tools for students, designed with a clean interface that keeps you in flow.</p>
+
+        <div class="features-grid">
+          <a href="focus.html" class="feat-card glass-card reveal">
+            <div class="feat-icon fi-1"><i class="fas fa-clock"></i></div>
+            <div class="feat-title">Pomodoro Focus Timer</div>
+            <div class="feat-desc">Customisable Pomodoro sessions with short and long breaks, progress rings, and session streaks to keep you locked in.</div>
+          </a>
+          <a href="gpa.html" class="feat-card glass-card reveal reveal-d1">
+            <div class="feat-icon fi-2"><i class="fas fa-calculator"></i></div>
+            <div class="feat-title">GPA Calculator</div>
+            <div class="feat-desc">Calculate semester GPA, save records across all levels and semesters, and track your cumulative performance over time.</div>
+          </a>
+          <a href="focus.html" class="feat-card glass-card reveal reveal-d2">
+            <div class="feat-icon fi-3"><i class="fas fa-tasks"></i></div>
+            <div class="feat-title">Task Manager</div>
+            <div class="feat-desc">Assign tasks to subjects with custom tags, track completion progress, and auto-save everything to your browser.</div>
+          </a>
+          <a href="dashboard.html" class="feat-card glass-card reveal">
+            <div class="feat-icon fi-4"><i class="fas fa-chart-line"></i></div>
+            <div class="feat-title">Progress Dashboard</div>
+            <div class="feat-desc">Visual dashboards showing your study trends, GPA history, and task completion. Identify strengths and areas for improvement.</div>
+          </a>
+          <a href="focus.html" class="feat-card glass-card reveal reveal-d1">
+            <div class="feat-icon fi-5"><i class="fas fa-music"></i></div>
+            <div class="feat-title">Focus Music & Sounds</div>
+            <div class="feat-desc">Upload local music playlist or tune into our soothing sound synthesizer (Low Rain, Alpha Beats, Tide Wave) during sessions.</div>
+          </a>
+          <a href="resources.html" class="feat-card glass-card reveal reveal-d2">
+            <div class="feat-icon fi-6"><i class="fas fa-book-open"></i></div>
+            <div class="feat-title">Study Resources</div>
+            <div class="feat-desc">Save and organise your study links, notes, and reference materials in one place. Access everything quickly.</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section id="how">
+      <div class="section-wrap">
+        <span class="section-tag reveal">✦ How It Works</span>
+        <h2 class="section-title reveal">Get started in<br>3 simple steps</h2>
+        <div class="steps-grid">
+          <div class="step-card glass-card reveal">
+            <div class="step-num">1</div>
+            <div class="step-title">Enter Your Courses</div>
+            <div class="step-desc">Select your level and semester in the GPA calculator to load all your subjects and credits automatically.</div>
+          </div>
+          <div class="step-card glass-card reveal reveal-d1">
+            <div class="step-num">2</div>
+            <div class="step-title">Start a Focus Session</div>
+            <div class="step-desc">Use the Pomodoro timer to begin focused study. Add tasks, play synthesized waves, and take structured breaks.</div>
+          </div>
+          <div class="step-card glass-card reveal reveal-d2">
+            <div class="step-num">3</div>
+            <div class="step-title">Track & Improve</div>
+            <div class="step-desc">Save your semester GPA, review your dashboard, and use insights to continuously improve your performance.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section id="cta">
+      <div class="section-wrap">
+        <div class="cta-box glass-card reveal">
+          <div style="font-size:3rem;margin-bottom:1rem;">🎓</div>
+          <h2 class="cta-title">Ready to take control<br>of your academics?</h2>
+          <p class="cta-desc">Everything you need is already saved in your browser — your tasks, GPA records, timer settings, and session notes. No account needed.</p>
+          <a href="focus.html" class="btn-primary" style="display:inline-flex;">
+            <i class="fas fa-rocket"></i> Start Focusing — It's Free
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+      <p>© 2026 UniHub &nbsp;·&nbsp; Built for students &nbsp;·&nbsp;
+        <a href="index.html">Home</a> &nbsp;·&nbsp;
+        <a href="dashboard.html">Dashboard</a> &nbsp;·&nbsp;
+        <a href="focus.html">Focus</a> &nbsp;·&nbsp;
+        <a href="gpa.html">GPA</a> &nbsp;·&nbsp;
+        <a href="resources.html">Resources</a> &nbsp;·&nbsp;
+        <button class="footer-reset-btn" onclick="confirmResetSiteData(event)"><i class="fas fa-trash-alt"></i> Reset Site</button>
+      </p>
+      <p style="margin-top:6px;font-size:0.74rem;color:var(--text-muted);">
+        <i class="fas fa-lock" style="color:var(--accent-emerald);"></i>
+        All your data is stored locally in your browser — nothing is sent to any server.
+      </p>
+    </footer>
+  </div><!-- end page-content -->
+
+  <script src="nav.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniHub · Dashboard — Your Academic Overview</title>
+  <meta name="description" content="View your academic performance at a glance — focus sessions, GPA progress, task completion, and study streaks. All data from your browser's local storage.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav id="main-nav" class="navbar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="navbar-brand" data-page="index.html">
+      <div class="brand-icon">
+        <i class="fas fa-graduation-cap"></i>
+      </div>
+      <span class="brand-text">Uni<span>Hub</span></span>
+      <span class="badge-active">Student Workspace</span>
+    </a>
+
+    <ul class="nav-links" id="nav-links" role="list">
+      <li><a href="index.html"     data-page="index.html"     id="nav-home"><i class="fas fa-house"></i> Home</a></li>
+      <li><a href="dashboard.html" data-page="dashboard.html" id="nav-dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+      <li><a href="focus.html"     data-page="focus.html"     id="nav-focus"><i class="fas fa-clock"></i> Focus</a></li>
+      <li><a href="gpa.html"       data-page="gpa.html"       id="nav-gpa"><i class="fas fa-calculator"></i> GPA</a></li>
+      <li><a href="resources.html" data-page="resources.html" id="nav-resources"><i class="fas fa-book-open"></i> Resources</a></li>
+      <li><a href="focus.html"     class="nav-cta"><i class="fas fa-bolt"></i> Focus Mode</a></li>
+    </ul>
+
+    <div class="navbar-actions">
+      <!-- Mute Switcher -->
+      <button id="volume-toggle" class="nav-btn" title="Toggle audio alert sound">
+        <i class="fas fa-volume-up"></i>
+      </button>
+
+      <!-- Theme Switcher -->
+      <button id="theme-toggle" class="nav-btn" title="Toggle theme">
+        <i class="fas fa-sun"></i>
+      </button>
+
+      <!-- Notifications Bell -->
+      <div style="position: relative;">
+        <button id="bell-toggle" class="nav-btn" title="Activity logs">
+          <i class="fas fa-bell"></i>
+          <span id="bell-badge" class="badge-count" style="display: none;">0</span>
+        </button>
+        <!-- Bell Dropdown -->
+        <div id="bell-dropdown" class="dropdown-menu glass-card">
+          <div class="dropdown-header">
+            <h4>Activity Logs</h4>
+            <button id="clear-notifications" class="dropdown-clear-btn">Clear</button>
+          </div>
+          <div id="notification-list" class="notification-list">
+            <!-- Dynamic elements injected by nav.js -->
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-divider"></div>
+
+      <!-- Profile Dropdown -->
+      <div style="position: relative;">
+        <button id="profile-trigger" class="profile-trigger">
+          <div class="profile-avatar">G</div>
+          <span class="profile-name">Guest</span>
+          <i class="fas fa-chevron-down profile-chevron"></i>
+        </button>
+        <!-- Profile Dropdown Menu -->
+        <div id="profile-dropdown" class="dropdown-menu profile-menu glass-card">
+          <div class="profile-menu-header">
+            <p class="full-name">Guest Student</p>
+            <p class="email">guest@unihub.edu</p>
+            <div class="profile-xp-nav"><i class="fas fa-bolt" style="color:var(--accent-orange);margin-right:4px;"></i><span id="nav-profile-xp">0</span> Focus XP</div>
+          </div>
+          <button id="edit-profile-btn" class="profile-menu-btn">
+            <i class="fas fa-user-edit"></i> Edit Profile
+          </button>
+          <button id="reset-data-btn" class="profile-menu-btn btn-reset-data">
+            <i class="fas fa-undo"></i> Reset Site Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Hamburger menu trigger -->
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation menu">
+        <i class="fas fa-bars" id="nav-hamburger-icon"></i>
+      </button>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <!-- Page hero -->
+    <div class="page-hero">
+      <div class="page-hero-left">
+        <h1><i class="fas fa-chart-pie" style="color:var(--accent-blue);margin-right:8px;"></i>Dashboard</h1>
+        <p>Your academic overview — all data pulled from your browser's local storage</p>
+      </div>
+      <div class="page-hero-right">
+        <div class="hero-clock" id="live-clock">00:00:00</div>
+        <div class="hero-date"  id="live-date"></div>
+      </div>
+    </div>
+
+    <div class="dash-wrap">
+
+      <button class="dash-refresh" onclick="loadDashboard()">
+        <i class="fas fa-sync-alt"></i> Refresh Data
+      </button>
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card glass-card reveal">
+          <div class="kpi-icon ki-1"><i class="fas fa-clock"></i></div>
+          <div class="kpi-info">
+            <div class="kpi-val" id="kpi-sessions">0</div>
+            <div class="kpi-lbl">Total Focus Sessions</div>
+          </div>
+        </div>
+        <div class="kpi-card glass-card reveal reveal-d1">
+          <div class="kpi-icon ki-2"><i class="fas fa-hourglass-half"></i></div>
+          <div class="kpi-info">
+            <div class="kpi-val" id="kpi-mins">0</div>
+            <div class="kpi-lbl">Minutes Focused</div>
+          </div>
+        </div>
+        <div class="kpi-card glass-card reveal reveal-d2">
+          <div class="kpi-icon ki-3"><i class="fas fa-tasks"></i></div>
+          <div class="kpi-info">
+            <div class="kpi-val" id="kpi-tasks">0</div>
+            <div class="kpi-lbl">Tasks Tracked</div>
+          </div>
+        </div>
+        <div class="kpi-card glass-card reveal reveal-d3">
+          <div class="kpi-icon ki-4"><i class="fas fa-check-double"></i></div>
+          <div class="kpi-info">
+            <div class="kpi-val" id="kpi-done">0</div>
+            <div class="kpi-lbl">Tasks Completed</div>
+          </div>
+        </div>
+        <div class="kpi-card glass-card reveal reveal-d1">
+          <div class="kpi-icon ki-5"><i class="fas fa-graduation-cap"></i></div>
+          <div class="kpi-info">
+            <div class="kpi-val" id="kpi-semesters">0</div>
+            <div class="kpi-lbl">Semesters Saved</div>
+          </div>
+        </div>
+        <div class="kpi-card glass-card reveal reveal-d2">
+          <div class="kpi-icon ki-6"><i class="fas fa-fire"></i></div>
+          <div class="kpi-info">
+            <div class="kpi-val" id="kpi-streak">0</div>
+            <div class="kpi-lbl">Day Streak</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Navigation -->
+      <div class="quick-links">
+        <a href="focus.html" class="quick-link glass-card reveal">
+          <i class="fas fa-clock"></i>
+          <span>Focus Timer</span>
+          <small>Start a session</small>
+        </a>
+        <a href="gpa.html" class="quick-link glass-card reveal reveal-d1">
+          <i class="fas fa-calculator"></i>
+          <span>GPA Calculator</span>
+          <small>Enter grades</small>
+        </a>
+        <a href="resources.html" class="quick-link glass-card reveal reveal-d2">
+          <i class="fas fa-book-open"></i>
+          <span>Resources</span>
+          <small>Study materials</small>
+        </a>
+        <a href="index.html" class="quick-link glass-card reveal reveal-d3">
+          <i class="fas fa-house"></i>
+          <span>Home</span>
+          <small>Back to overview</small>
+        </a>
+      </div>
+
+      <!-- 2-col section -->
+      <div class="dash-grid">
+
+        <!-- GPA Overview -->
+        <div class="dash-card glass-card reveal">
+          <div class="dash-card-header">
+            <div class="dash-card-icon"><i class="fas fa-chart-line"></i></div>
+            <div>
+              <div class="dash-card-title">GPA Overview</div>
+              <div class="dash-card-sub">Semester-by-semester from localStorage</div>
+            </div>
+          </div>
+
+          <div class="gpa-ring-wrap">
+            <div class="overall-meter">
+              <svg width="120" height="120" viewBox="0 0 120 120">
+                <circle class="meter-bg"   cx="60" cy="60" r="50"/>
+                <circle class="meter-fill" id="meterFill" cx="60" cy="60" r="50"/>
+              </svg>
+              <div class="meter-inner">
+                <div class="gpa-ring-val" id="overall-gpa">—</div>
+                <div class="gpa-ring-lbl">Overall</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="gpa-list" id="gpa-list">
+            <div class="no-data"><i class="fas fa-calculator"></i>No GPA records yet.<br>Go to the GPA Calculator to get started.</div>
+          </div>
+        </div>
+
+        <!-- Task Breakdown -->
+        <div class="dash-card glass-card reveal reveal-d1">
+          <div class="dash-card-header">
+            <div class="dash-card-icon"><i class="fas fa-tags"></i></div>
+            <div>
+              <div class="dash-card-title">Task Breakdown</div>
+              <div class="dash-card-sub">By subject category</div>
+            </div>
+          </div>
+          <div class="task-breakdown" id="task-breakdown">
+            <div class="no-data"><i class="fas fa-tasks"></i>No tasks found.<br>Add tasks in the Focus page.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+
+        <!-- Focus Timeline -->
+        <div class="dash-card glass-card reveal">
+          <div class="dash-card-header">
+            <div class="dash-card-icon"><i class="fas fa-history"></i></div>
+            <div>
+              <div class="dash-card-title">Focus Summary</div>
+              <div class="dash-card-sub">Sessions &amp; time from localStorage</div>
+            </div>
+          </div>
+          <div class="timeline" id="focus-timeline">
+            <div class="no-data"><i class="fas fa-clock"></i>No sessions yet.<br>Start the Pomodoro timer to begin.</div>
+          </div>
+        </div>
+
+        <!-- Session Note Preview -->
+        <div class="dash-card glass-card reveal reveal-d1">
+          <div class="dash-card-header">
+            <div class="dash-card-icon"><i class="fas fa-sticky-note"></i></div>
+            <div>
+              <div class="dash-card-title">Last Session Note</div>
+              <div class="dash-card-sub">Saved from Focus page</div>
+            </div>
+          </div>
+          <div id="session-note-preview" style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;min-height:80px;">
+            <div class="no-data"><i class="fas fa-sticky-note"></i>No session notes saved yet.<br>Write notes during your focus sessions.</div>
+          </div>
+          <a href="focus.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:1.4rem;font-size:0.78rem;color:var(--accent-blue);text-decoration:none;font-weight:600;">
+            <i class="fas fa-arrow-right"></i> Go to Focus page
+          </a>
+        </div>
+      </div>
+
+      <!-- Weekly Timetable Section -->
+      <div class="dash-grid full-width" style="margin-top:24px;">
+        <div class="dash-card glass-card reveal">
+          <div class="dash-card-header">
+            <div class="dash-card-icon"><i class="fas fa-calendar-alt"></i></div>
+            <div>
+              <div class="dash-card-title">Weekly Timetable</div>
+              <div class="dash-card-sub">Interactive study schedule logged inside your browser</div>
+            </div>
+          </div>
+          <div class="matrix-wrap">
+            <table class="timetable-table">
+              <thead>
+                <tr>
+                  <th>Time Slot</th>
+                  <th>Monday</th>
+                  <th>Tuesday</th>
+                  <th>Wednesday</th>
+                  <th>Thursday</th>
+                  <th>Friday</th>
+                </tr>
+              </thead>
+              <tbody id="timetableBody">
+                <!-- Injected dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timetable Editor Section -->
+      <div class="dash-grid full-width" style="margin-top:24px;">
+        <div class="dash-card glass-card reveal">
+          <div class="dash-card-header" style="flex-wrap:wrap; gap:16px;">
+            <div class="dash-card-icon"><i class="fas fa-edit"></i></div>
+            <div>
+              <div class="dash-card-title">Timetable Schedule Manager</div>
+              <div class="dash-card-sub">Select a day on the right to update your hour slots. Changes save automatically!</div>
+            </div>
+            <div class="timetable-day-select-wrap">
+              <label for="daySelector" class="day-select-label"><i class="fas fa-calendar-day"></i> Select Day: </label>
+              <select id="daySelector" class="day-select-control">
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+              </select>
+            </div>
+          </div>
+          <div id="timetableEditor" class="timetable-editor-grid">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end dash-wrap -->
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+      <p>© 2026 UniHub &nbsp;·&nbsp;
+        <a href="index.html">Home</a> &nbsp;·&nbsp;
+        <a href="dashboard.html">Dashboard</a> &nbsp;·&nbsp;
+        <a href="focus.html">Focus</a> &nbsp;·&nbsp;
+        <a href="gpa.html">GPA</a> &nbsp;·&nbsp;
+        <a href="resources.html">Resources</a> &nbsp;·&nbsp;
+        <button class="footer-reset-btn" onclick="confirmResetSiteData(event)"><i class="fas fa-trash-alt"></i> Reset Site</button>
+      </p>
+      <p style="margin-top:6px;font-size:0.74rem;color:var(--text-muted);">
+        <i class="fas fa-lock" style="color:var(--accent-emerald);"></i>
+        All data shown is read directly from your browser's localStorage — nothing is sent to any server.
+      </p>
+    </footer>
+  </div>
+
+  <script src="nav.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,508 @@
+/* ===== DASHBOARD SPECIFIC STYLES ===== */
+
+.dash-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.2rem 2rem;
+}
+
+@media (max-width: 640px) {
+  .dash-wrap {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* ===== KPI cards row ===== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 2rem;
+}
+
+.kpi-card {
+  padding: 1.6rem 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.kpi-card:hover {
+  border-color: rgba(37, 99, 235, 0.3);
+  box-shadow: 0 8px 24px var(--accent-blue-glow);
+}
+
+.kpi-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.45rem;
+}
+.ki-1 { background: rgba(37, 99, 235, 0.12); color: var(--accent-blue); }
+.ki-2 { background: rgba(16, 185, 129, 0.12); color: var(--accent-emerald); }
+.ki-3 { background: rgba(249, 115, 22, 0.12); color: var(--accent-orange); }
+.ki-4 { background: rgba(139, 92, 246, 0.12); color: var(--accent-purple); }
+.ki-5 { background: rgba(244, 63, 94, 0.12); color: var(--accent-rose); }
+.ki-6 { background: rgba(234, 179, 8, 0.12); color: var(--accent-amber); }
+
+.kpi-info {
+  flex: 1;
+}
+
+.kpi-val {
+  font-size: 1.95rem;
+  font-weight: 900;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.kpi-lbl {
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ===== Quick links Navigation ===== */
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 2rem;
+}
+
+.quick-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 1.5rem 1.2rem;
+  text-decoration: none;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.quick-link:hover {
+  transform: translateY(-4px);
+  border-color: rgba(37, 99, 235, 0.3);
+  box-shadow: 0 8px 24px var(--accent-blue-glow);
+}
+
+.quick-link i {
+  font-size: 1.7rem;
+  color: var(--accent-blue);
+}
+
+.quick-link span {
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.quick-link small {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ===== 2-col section ===== */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 900px) {
+  .dash-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.dash-card {
+  padding: 1.8rem;
+}
+
+.dash-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.dash-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--accent-blue-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-blue);
+  font-size: 1.05rem;
+}
+
+.dash-card-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.dash-card-sub {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  font-weight: 600;
+}
+
+/* ===== Overall GPA ring visual ===== */
+.gpa-ring-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1.5rem 0 2rem;
+}
+
+.overall-meter {
+  width: 120px;
+  height: 120px;
+  position: relative;
+}
+
+.overall-meter svg {
+  transform: rotate(-90deg);
+}
+
+.meter-bg {
+  fill: none;
+  stroke: var(--border-color);
+  stroke-width: 10;
+}
+
+.meter-fill {
+  fill: none;
+  stroke: var(--accent-blue);
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-dasharray: 314;
+  stroke-dashoffset: 314;
+  transition: stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.3s;
+}
+
+.meter-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.gpa-ring-val {
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: var(--text-primary);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.gpa-ring-lbl {
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ===== GPA history list ===== */
+.gpa-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gpa-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+}
+
+.gpa-item-label {
+  flex: 1;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.gpa-item-val {
+  font-size: 1.15rem;
+  font-weight: 900;
+}
+
+.gpa-val-ex { color: var(--accent-emerald); }
+.gpa-val-good { color: var(--accent-blue); }
+.gpa-val-avg { color: var(--accent-orange); }
+.gpa-val-weak { color: var(--accent-rose); }
+
+.no-data {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.no-data i {
+  display: block;
+  font-size: 2.8rem;
+  opacity: 0.25;
+  margin-bottom: 12px;
+  color: var(--accent-blue);
+}
+
+/* ===== Task breakdown layout ===== */
+.task-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tag-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.tag-name {
+  width: 85px;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.tag-bar-track {
+  flex: 1;
+  height: 10px;
+  background: var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.tag-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tb-math   { background: linear-gradient(90deg, var(--accent-blue), var(--accent-blue-hover)); }
+.tb-sci    { background: linear-gradient(90deg, var(--accent-emerald), #059669); }
+.tb-eng    { background: linear-gradient(90deg, var(--accent-orange), var(--accent-orange-text)); }
+.tb-gen    { background: linear-gradient(90deg, var(--text-secondary), var(--text-muted)); }
+.tb-custom { background: linear-gradient(90deg, var(--accent-purple), var(--accent-purple-text)); }
+
+.tag-count {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  width: 35px;
+  text-align: right;
+  font-weight: 700;
+}
+
+/* ===== Focus timeline logs ===== */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tl-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--border-radius-md);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+}
+
+.tl-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-blue);
+  flex-shrink: 0;
+}
+
+.tl-text {
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  flex: 1;
+  font-weight: 500;
+}
+
+.tl-val {
+  font-size: 0.82rem;
+  color: var(--accent-blue);
+  font-weight: 700;
+}
+
+/* ===== Refresh Button ===== */
+.dash-refresh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-blue-glow);
+  border: 1px solid rgba(37, 99, 235, 0.22);
+  color: var(--accent-blue);
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  transition: var(--transition-bounce);
+  font-family: inherit;
+}
+
+.dash-refresh:hover {
+  background: var(--bg-primary);
+  border-color: var(--accent-blue);
+  transform: scale(1.02);
+}
+
+/* ===== Weekly Timetable & Timetable Manager styling ===== */
+.timetable-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.timetable-table th, 
+.timetable-table td {
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px;
+  text-align: left;
+  font-size: 0.82rem;
+}
+
+.timetable-table th {
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--bg-primary);
+  font-weight: 700;
+}
+
+.timetable-table td.timetable-time {
+  background: var(--bg-primary);
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.timetable-slot-empty {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.timetable-slot-active {
+  background: var(--accent-blue-glow);
+  color: var(--accent-blue);
+  font-weight: 600;
+  border-left: 3px solid var(--accent-blue);
+}
+
+.matrix-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  background: var(--bg-card);
+}
+
+/* Timetable Editor styling */
+.timetable-day-select-wrap {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.day-select-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.day-select-control {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.76rem;
+  font-weight: 700;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+}
+
+.timetable-editor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 12px;
+}
+
+.timetable-edit-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--border-radius-md);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+}
+
+.timetable-edit-label {
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  font-weight: 700;
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.timetable-edit-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.timetable-edit-input:focus {
+  border-color: var(--accent-blue);
+}
+
+/* Make full-width cards stretch */
+.dash-grid.full-width {
+  grid-template-columns: 1fr;
+}

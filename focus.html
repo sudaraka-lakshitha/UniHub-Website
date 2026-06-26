@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniHub · Focus — Pomodoro Timer & Task Manager</title>
+  <meta name="description" content="Stay in the zone with UniHub's Pomodoro timer, task manager, sound synthesizer, music player, and session notes — all saved locally in your browser.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="focus.css">
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav id="main-nav" class="navbar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="navbar-brand" data-page="index.html">
+      <div class="brand-icon">
+        <i class="fas fa-graduation-cap"></i>
+      </div>
+      <span class="brand-text">Uni<span>Hub</span></span>
+      <span class="badge-active">Student Workspace</span>
+    </a>
+
+    <ul class="nav-links" id="nav-links" role="list">
+      <li><a href="index.html"     data-page="index.html"     id="nav-home"><i class="fas fa-house"></i> Home</a></li>
+      <li><a href="dashboard.html" data-page="dashboard.html" id="nav-dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+      <li><a href="focus.html"     data-page="focus.html"     id="nav-focus"><i class="fas fa-clock"></i> Focus</a></li>
+      <li><a href="gpa.html"       data-page="gpa.html"       id="nav-gpa"><i class="fas fa-calculator"></i> GPA</a></li>
+      <li><a href="resources.html" data-page="resources.html" id="nav-resources"><i class="fas fa-book-open"></i> Resources</a></li>
+      <li><a href="focus.html"     class="nav-cta"><i class="fas fa-bolt"></i> Focus Mode</a></li>
+    </ul>
+
+    <div class="navbar-actions">
+      <!-- Mute Switcher -->
+      <button id="volume-toggle" class="nav-btn" title="Toggle audio alert sound">
+        <i class="fas fa-volume-up"></i>
+      </button>
+
+      <!-- Theme Switcher -->
+      <button id="theme-toggle" class="nav-btn" title="Toggle theme">
+        <i class="fas fa-sun"></i>
+      </button>
+
+      <!-- Notifications Bell -->
+      <div style="position: relative;">
+        <button id="bell-toggle" class="nav-btn" title="Activity logs">
+          <i class="fas fa-bell"></i>
+          <span id="bell-badge" class="badge-count" style="display: none;">0</span>
+        </button>
+        <!-- Bell Dropdown -->
+        <div id="bell-dropdown" class="dropdown-menu glass-card">
+          <div class="dropdown-header">
+            <h4>Activity Logs</h4>
+            <button id="clear-notifications" class="dropdown-clear-btn">Clear</button>
+          </div>
+          <div id="notification-list" class="notification-list">
+            <!-- Dynamic elements injected by nav.js -->
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-divider"></div>
+
+      <!-- Profile Dropdown -->
+      <div style="position: relative;">
+        <button id="profile-trigger" class="profile-trigger">
+          <div class="profile-avatar">G</div>
+          <span class="profile-name">Guest</span>
+          <i class="fas fa-chevron-down profile-chevron"></i>
+        </button>
+        <!-- Profile Dropdown Menu -->
+        <div id="profile-dropdown" class="dropdown-menu profile-menu glass-card">
+          <div class="profile-menu-header">
+            <p class="full-name">Guest Student</p>
+            <p class="email">guest@unihub.edu</p>
+            <div class="profile-xp-nav"><i class="fas fa-bolt" style="color:var(--accent-orange);margin-right:4px;"></i><span id="nav-profile-xp">0</span> Focus XP</div>
+          </div>
+          <button id="edit-profile-btn" class="profile-menu-btn">
+            <i class="fas fa-user-edit"></i> Edit Profile
+          </button>
+          <button id="reset-data-btn" class="profile-menu-btn btn-reset-data">
+            <i class="fas fa-undo"></i> Reset Site Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Hamburger menu trigger -->
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation menu">
+        <i class="fas fa-bars" id="nav-hamburger-icon"></i>
+      </button>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <!-- Page hero -->
+    <div class="page-hero">
+      <div class="page-hero-left">
+        <h1><i class="fas fa-clock" style="color:var(--accent-blue);margin-right:8px;"></i>Focus Mode</h1>
+        <p>Stay locked in — one Pomodoro session at a time · All data auto-saved locally</p>
+      </div>
+      <div class="page-hero-right">
+        <div class="hero-clock" id="live-clock">00:00:00</div>
+        <div class="hero-date"  id="live-date"></div>
+      </div>
+    </div>
+
+    <div class="focus-body">
+      <div id="notifBar" class="notif"></div>
+
+      <div class="focus-grid">
+
+        <!-- ===== TIMER CARD ===== -->
+        <div class="fcard glass-card" id="timerCard">
+          <div class="ch">
+            <div class="ci"><i class="fas fa-clock"></i></div>
+            <div>
+              <div class="ct">Pomodoro Timer</div>
+              <div class="cs">Custom durations &amp; playlists &nbsp;<span class="save-indicator" id="saveIndicator">💾 Saved</span></div>
+            </div>
+          </div>
+
+          <button class="settings-toggle" id="settingsToggle" onclick="toggleSettings()">
+            <i class="fas fa-cog"></i> Timer settings <i class="fas fa-chevron-down"></i>
+          </button>
+
+          <!-- Settings Drawer -->
+          <div class="settings-bar" id="settingsBar">
+            <div class="settings-row">
+              <label>Focus <input type="number" id="customFocus" value="25" min="1" max="120"> min</label>
+              <label>Short <input type="number" id="customShort" value="5"  min="1" max="30"> min</label>
+              <label>Long  <input type="number" id="customLong"  value="15" min="1" max="60"> min</label>
+              <button class="btn-apply" onclick="applyCustomTimers()">Apply</button>
+              <button class="btn-apply btn-reset-timers" onclick="resetTimers()" title="Reset to default 25/5/15"><i class="fas fa-undo-alt"></i> Reset</button>
+            </div>
+            <div class="music-upload-row">
+              <label class="music-upload-label" for="musicUploadSettings">
+                <i class="fas fa-music"></i> Add Track
+              </label>
+              <input type="file" id="musicUploadSettings" accept="audio/*" class="file-input-hidden" onchange="handleMusicUpload(event)">
+              <span class="upload-status" id="playlistCountLabel">0 / 5 tracks</span>
+            </div>
+            <!-- Playlist -->
+            <div class="playlist-wrap" id="playlistWrap">
+              <div class="playlist-label"><i class="fas fa-list-music"></i> Playlist (up to 5 tracks)</div>
+              <div class="playlist-tracks" id="playlistTracks"></div>
+            </div>
+          </div>
+
+          <!-- Music prompt -->
+          <div class="music-prompt" id="musicPrompt">
+            <p><i class="fas fa-headphones"></i> Upload your focus music files to get started.</p>
+            <label class="btn-upload-prompt" for="musicUploadPrompt"><i class="fas fa-upload"></i> Upload</label>
+            <input type="file" id="musicUploadPrompt" accept="audio/*" class="file-input-hidden" onchange="handleMusicUpload(event,'prompt')">
+            <button class="btn-skip-prompt" onclick="skipMusicPrompt()">Skip</button>
+          </div>
+
+          <!-- Mode pills -->
+          <div class="pills">
+            <button class="pill on" onclick="setMode('focus', getFocusMins(), this)">Focus</button>
+            <button class="pill"    onclick="setMode('short', getShortMins(), this)">Short break</button>
+            <button class="pill"    onclick="setMode('long',  getLongMins(),  this)">Long break</button>
+          </div>
+
+          <!-- Ring -->
+          <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;">
+            <div class="ring-wrap">
+              <svg width="160" height="160" viewBox="0 0 160 160">
+                <circle class="rbg"   cx="80" cy="80" r="70"/>
+                <circle class="rprog" id="ring" cx="80" cy="80" r="70"/>
+              </svg>
+              <div class="rinner">
+                <div class="rtime" id="tDisp">25:00</div>
+                <div class="rmode" id="tMode">Focus</div>
+              </div>
+            </div>
+
+            <div class="ctrls">
+              <button class="btn-r" onclick="resetTimer()"><i class="fas fa-sync-alt"></i> Reset</button>
+              <button class="btn-start" id="startBtn" onclick="toggleTimer()">
+                <i class="fas fa-play" id="startIcon"></i> <span id="startTxt">Start</span>
+              </button>
+            </div>
+
+            <div class="dots-section">
+              <div class="dots" id="dotRow">
+                <div class="dot cur tooltip" data-tip="Session 1 of 4"></div>
+                <div class="dot tooltip"     data-tip="Session 2 of 4"></div>
+                <div class="dot tooltip"     data-tip="Session 3 of 4"></div>
+                <div class="dot tooltip"     data-tip="Session 4 of 4 → Long break"></div>
+              </div>
+              <div class="dot-label">Sessions this cycle · 4 = long break</div>
+            </div>
+          </div>
+
+          <!-- Stats boxes -->
+          <div class="stats">
+            <div class="stat-box"><div class="sn" id="sSess">0</div><div class="sl">Sessions</div></div>
+            <div class="stat-box"><div class="sn" id="sTotalSess">0</div><div class="sl">Total</div></div>
+            <div class="stat-box"><div class="sn" id="sMin">0</div><div class="sl">Min focused</div></div>
+            <div class="stat-box"><div class="sn" id="sDone">0</div><div class="sl">Tasks done</div></div>
+          </div>
+
+          <!-- Focus Music Player -->
+          <div class="music-player">
+            <div class="mp-controls">
+              <button onclick="prevTrack()" title="Previous track"><i class="fas fa-step-backward"></i></button>
+              <button id="musicPlayBtn" onclick="toggleMusic()">
+                <i class="fas fa-play" id="musicIcon"></i>
+              </button>
+              <button onclick="nextTrack()" title="Next track"><i class="fas fa-step-forward"></i></button>
+            </div>
+            <div class="mp-info">
+              <strong>🎵 <span id="musicName">No music</span></strong>
+              <span id="musicStatus">• idle</span>
+              <span class="music-source" id="musicSourceLabel">Add tracks in settings</span>
+            </div>
+            <div class="mp-volume">
+              <i class="fas fa-volume-down"></i>
+              <input type="range" id="musicVolume" min="0" max="1" step="0.05" value="0.3" oninput="setMusicVolume(this.value)">
+              <i class="fas fa-volume-up"></i>
+            </div>
+          </div>
+
+          <!-- Ambient Synthesizer Sound Control -->
+          <div class="sound-machine-section">
+            <div class="sound-machine-title"><i class="fas fa-sliders-h"></i> Focus Sound Machine</div>
+            <div class="sound-grid">
+              <button class="sound-btn active" data-sound="none" onclick="selectAmbientSound('none', this)">⏹ Off</button>
+              <button class="sound-btn" data-sound="white_noise" onclick="selectAmbientSound('white_noise', this)">🌬 Low Rain</button>
+              <button class="sound-btn" data-sound="binaural" onclick="selectAmbientSound('binaural', this)">🧠 Alpha Beats</button>
+              <button class="sound-btn" data-sound="ocean_waves" onclick="selectAmbientSound('ocean_waves', this)">🌊 Tide Wave</button>
+            </div>
+          </div>
+
+          <!-- Quote -->
+          <div class="quote-box" id="quoteBox">"The secret of getting ahead is getting started." — Mark Twain</div>
+        </div>
+
+        <!-- ===== TASK CARD ===== -->
+        <div class="fcard glass-card">
+          <div class="ch">
+            <div class="ci"><i class="fas fa-tags"></i></div>
+            <div>
+              <div class="ct">Task Manager</div>
+              <div class="cs">Assign subject · custom categories · auto-saved locally</div>
+            </div>
+          </div>
+
+          <div class="task-card-body">
+            <div class="tadd">
+              <input class="tinp" id="tInp" placeholder="Write a task…" onkeydown="if(event.key==='Enter')addTask()">
+                <select class="tag-select" id="tagSelect" onchange="toggleCustomTagInput(this.value)">
+                  <option value="math">Maths</option>
+                  <option value="sci">Science</option>
+                  <option value="eng">English</option>
+                  <option value="gen">General</option>
+                  <option value="custom">✨ Custom</option>
+                </select>
+                <input type="date" class="due-date" id="taskDueDate" title="Due date" style="margin-left:4px;"/>
+                <input class="custom-tag-input" id="customTagInput" placeholder="Custom tag…" style="display:none;">
+                <button class="btn-add" onclick="addTask()"><i class="fas fa-plus"></i> Add</button>
+            </div>
+
+            <div class="tlist-wrapper" id="tlistWrapper">
+              <div class="tlist" id="tList"></div>
+            </div>
+
+            <div class="pb-wrap" id="pbWrap" style="display:none;">
+              <div class="pb-top"><span>Today's progress</span><span id="pbLabel">0 / 0</span></div>
+              <div class="pb-track"><div class="pb-fill" id="pbFill" style="width:0%"></div></div>
+            </div>
+
+            <div class="task-actions">
+              <button class="btn-reset-tasks" onclick="showResetConfirm('tasks')">
+                <i class="fas fa-trash-alt"></i> Reset all tasks
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== BOTTOM ROW: NOTES & GUIDES ===== -->
+      <div class="lms-grid">
+        <!-- Session Notes Card -->
+        <div class="fcard glass-card">
+          <div class="ch">
+            <div class="ci"><i class="fas fa-sticky-note"></i></div>
+            <div><div class="ct">Session Notes</div><div class="cs">Capture thoughts during focus · saved to your browser</div></div>
+          </div>
+          <div class="session-note">
+            <textarea id="sessionNote" placeholder="Write your session notes here… What did you learn? What's next?"></textarea>
+            <div class="note-actions">
+              <button class="btn-save-note" onclick="saveNote()"><i class="fas fa-save"></i> Save</button>
+              <button class="btn-clear-note" onclick="showResetConfirm('notes')"><i class="fas fa-trash-alt"></i> Clear</button>
+            </div>
+          </div>
+          <div class="focus-stats-mini">
+            <span class="stat-mini"><strong id="todaySessions">0</strong> sessions today</span>
+            <span class="stat-mini"><strong id="todayMins">0</strong> min focused</span>
+            <span class="stat-mini"><strong id="streakDays">0</strong> day streak</span>
+            <span class="stat-mini" style="border-color: rgba(249, 115, 22, 0.25); background: rgba(249, 115, 22, 0.06); color: var(--accent-orange-text);"><strong id="focusXpVal" style="color: var(--accent-orange);">0</strong> XP</span>
+          </div>
+        </div>
+
+        <!-- Productivity Guides Card -->
+        <div class="fcard glass-card">
+          <div class="ch">
+            <div class="ci"><i class="fas fa-graduation-cap"></i></div>
+            <div><div class="ct">Productivity Guides</div><div class="cs">Scientific tricks to maintain high performance</div></div>
+          </div>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px; font-weight: 500;">
+            Click on any guide below to review scientific breakdowns and recommendations designed to keep you at peak focus levels.
+          </p>
+          <div class="guides-grid">
+            <button class="guide-btn" onclick="showTipModal('breaks')"><i class="fas fa-coffee"></i> Rest Breaks</button>
+            <button class="guide-btn" onclick="showTipModal('hydrate')"><i class="fas fa-tint"></i> Hydration</button>
+            <button class="guide-btn" onclick="showTipModal('phone')"><i class="fas fa-mobile-alt"></i> No Phone</button>
+            <button class="guide-btn" onclick="showTipModal('streak')"><i class="fas fa-fire"></i> Daily Habit</button>
+          </div>
+
+          <!-- Claim Streak XP Widget -->
+          <div class="streak-claim-box" id="streak-card">
+            <div class="streak-claim-content">
+              <div class="streak-claim-title"><i class="fas fa-star" style="color:var(--accent-orange);"></i> Claim Daily Bonus</div>
+              <div class="streak-claim-desc">Keep your streak active to collect +150 XP daily points!</div>
+              <button class="btn-claim-streak" id="claim-streak-btn">Claim +150 XP</button>
+            </div>
+            <div class="booster-graphic-container">
+              <div class="floating-badge-mini check">✓</div>
+              <div class="floating-badge-mini tomato">🍅</div>
+              <img src="graphic.png" alt="Student study graphic background" class="booster-graphic" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TIMER POPUP OVERLAY ===== -->
+    <div class="timer-popup-overlay" id="timerPopup">
+      <div class="timer-popup glass-card">
+        <div class="popup-icon"><i class="fas fa-hourglass-end"></i></div>
+        <h2 id="popupTitle">⏰ Timer Finished!</h2>
+        <p id="popupDesc">Your focus session has ended. Time to take a break!</p>
+        <div class="popup-actions">
+          <button class="btn-continue" onclick="closeTimerPopup()"><i class="fas fa-check"></i> Got it</button>
+          <button class="btn-dismiss"  onclick="closeTimerPopup()">Dismiss</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== GUIDES MODAL OVERLAY ===== -->
+    <div class="modal-overlay" id="guide-modal-overlay">
+      <div class="modal-container glass-card">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <div class="modal-title-icon" id="guide-modal-icon">
+              <!-- Dynamically loaded icon -->
+            </div>
+            <h3 id="guide-modal-title">Tip Title</h3>
+          </div>
+          <button class="modal-close-btn" onclick="closeTipModal()" aria-label="Close guide modal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <p id="guide-modal-desc" class="modal-description">Detailed description goes here...</p>
+        <div class="modal-points-list">
+          <span class="modal-points-header">Recommendations:</span>
+          <div id="guide-modal-points">
+            <!-- Dynamically loaded list items -->
+          </div>
+        </div>
+        <button class="modal-action-btn" onclick="closeTipModal()">Dismiss Guide</button>
+      </div>
+    </div>
+
+    <!-- ===== CONFIRM DIALOG OVERLAY ===== -->
+    <div class="confirm-overlay" id="confirmOverlay">
+      <div class="confirm-dialog glass-card">
+        <h3 id="confirmTitle"><i class="fas fa-exclamation-triangle" style="color:#e07070;"></i> Reset all tasks?</h3>
+        <p id="confirmDesc">This will delete <strong>all</strong> your tasks permanently.</p>
+        <div class="confirm-actions">
+          <button class="btn-confirm-yes" id="confirmYesBtn" onclick="executeConfirm()">Yes, reset all</button>
+          <button class="btn-confirm-no"  onclick="closeConfirm()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+      <p>© 2026 UniHub &nbsp;·&nbsp;
+        <a href="index.html">Home</a> &nbsp;·&nbsp;
+        <a href="dashboard.html">Dashboard</a> &nbsp;·&nbsp;
+        <a href="focus.html">Focus</a> &nbsp;·&nbsp;
+        <a href="gpa.html">GPA</a> &nbsp;·&nbsp;
+        <a href="resources.html">Resources</a> &nbsp;·&nbsp;
+        <button class="footer-reset-btn" onclick="confirmResetSiteData(event)"><i class="fas fa-trash-alt"></i> Reset Site</button>
+      </p>
+      <p style="margin-top:6px;font-size:0.74rem;color:var(--text-muted);">
+        <i class="fas fa-lock" style="color:var(--accent-emerald);"></i>
+        All focus data, tasks, and notes are saved locally in your browser — nothing is sent to any server.
+      </p>
+    </footer>
+  </div>
+
+  <script src="nav.js"></script>
+  <script src="focus.js"></script>
+</body>
+</html>

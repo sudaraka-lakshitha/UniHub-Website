@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniHub · Resources — Save & Organise Study Materials</title>
+  <meta name="description" content="Save, organise, and quickly access your study links, notes, and reference materials. All resources stored locally in your browser.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="resources.css">
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav id="main-nav" class="navbar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="navbar-brand" data-page="index.html">
+      <div class="brand-icon">
+        <i class="fas fa-graduation-cap"></i>
+      </div>
+      <span class="brand-text">Uni<span>Hub</span></span>
+      <span class="badge-active">Student Workspace</span>
+    </a>
+
+    <ul class="nav-links" id="nav-links" role="list">
+      <li><a href="index.html"     data-page="index.html"     id="nav-home"><i class="fas fa-house"></i> Home</a></li>
+      <li><a href="dashboard.html" data-page="dashboard.html" id="nav-dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+      <li><a href="focus.html"     data-page="focus.html"     id="nav-focus"><i class="fas fa-clock"></i> Focus</a></li>
+      <li><a href="gpa.html"       data-page="gpa.html"       id="nav-gpa"><i class="fas fa-calculator"></i> GPA</a></li>
+      <li><a href="resources.html" data-page="resources.html" id="nav-resources"><i class="fas fa-book-open"></i> Resources</a></li>
+      <li><a href="focus.html"     class="nav-cta"><i class="fas fa-bolt"></i> Focus Mode</a></li>
+    </ul>
+
+    <div class="navbar-actions">
+      <!-- Mute Switcher -->
+      <button id="volume-toggle" class="nav-btn" title="Toggle audio alert sound">
+        <i class="fas fa-volume-up"></i>
+      </button>
+
+      <!-- Theme Switcher -->
+      <button id="theme-toggle" class="nav-btn" title="Toggle theme">
+        <i class="fas fa-sun"></i>
+      </button>
+
+      <!-- Notifications Bell -->
+      <div style="position: relative;">
+        <button id="bell-toggle" class="nav-btn" title="Activity logs">
+          <i class="fas fa-bell"></i>
+          <span id="bell-badge" class="badge-count" style="display: none;">0</span>
+        </button>
+        <!-- Bell Dropdown -->
+        <div id="bell-dropdown" class="dropdown-menu glass-card">
+          <div class="dropdown-header">
+            <h4>Activity Logs</h4>
+            <button id="clear-notifications" class="dropdown-clear-btn">Clear</button>
+          </div>
+          <div id="notification-list" class="notification-list">
+            <!-- Dynamic elements injected by nav.js -->
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-divider"></div>
+
+      <!-- Profile Dropdown -->
+      <div style="position: relative;">
+        <button id="profile-trigger" class="profile-trigger">
+          <div class="profile-avatar">G</div>
+          <span class="profile-name">Guest</span>
+          <i class="fas fa-chevron-down profile-chevron"></i>
+        </button>
+        <!-- Profile Dropdown Menu -->
+        <div id="profile-dropdown" class="dropdown-menu profile-menu glass-card">
+          <div class="profile-menu-header">
+            <p class="full-name">Guest Student</p>
+            <p class="email">guest@unihub.edu</p>
+            <div class="profile-xp-nav"><i class="fas fa-bolt" style="color:var(--accent-orange);margin-right:4px;"></i><span id="nav-profile-xp">0</span> Focus XP</div>
+          </div>
+          <button id="edit-profile-btn" class="profile-menu-btn">
+            <i class="fas fa-user-edit"></i> Edit Profile
+          </button>
+          <button id="reset-data-btn" class="profile-menu-btn btn-reset-data">
+            <i class="fas fa-undo"></i> Reset Site Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Hamburger menu trigger -->
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation menu">
+        <i class="fas fa-bars" id="nav-hamburger-icon"></i>
+      </button>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    <!-- Page hero -->
+    <div class="page-hero">
+      <div class="page-hero-left">
+        <h1><i class="fas fa-book-open" style="color:var(--accent-blue);margin-right:8px;"></i>Resources</h1>
+        <p>Save links, notes, and study materials · All stored locally in your browser</p>
+      </div>
+      <div class="page-hero-right">
+        <div class="hero-clock" id="live-clock">00:00:00</div>
+        <div class="hero-date"  id="live-date"></div>
+      </div>
+    </div>
+
+    <div class="res-wrap">
+      <div id="res-notif" class="res-notif"></div>
+
+      <!-- Add Resource Form -->
+      <div class="add-form glass-card">
+        <h2><i class="fas fa-plus-circle" style="color:var(--accent-blue);margin-right:6px;"></i>Add a Resource</h2>
+        <div class="form-grid">
+          <input  class="res-input"  id="res-title"  type="text"   placeholder="Title (required)">
+          <select class="res-select" id="res-type">
+            <option value="link">🔗 Link / URL</option>
+            <option value="note">📝 Note</option>
+            <option value="video">🎬 Video</option>
+            <option value="doc">📄 Document</option>
+            <option value="other">📦 Other</option>
+          </select>
+          <input  class="res-input"  id="res-url"    type="url"    placeholder="URL (optional)">
+          <input  class="res-input"  id="res-cat"    type="text"   placeholder="Category (e.g. Maths, Physics)">
+        </div>
+        <textarea class="res-textarea" id="res-desc" placeholder="Description / notes (optional)"></textarea>
+        <div style="margin-top:10px;">
+          <button class="btn-add-res" onclick="addResource()">
+            <i class="fas fa-plus"></i> Add Resource
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="res-stats-row" id="res-stats-row" style="display:none;">
+        <div class="res-stat"><strong id="stat-total">0</strong> total</div>
+        <div class="res-stat"><strong id="stat-links">0</strong> links</div>
+        <div class="res-stat"><strong id="stat-notes">0</strong> notes</div>
+        <div class="res-stat"><strong id="stat-other-cnt">0</strong> other</div>
+      </div>
+
+      <!-- Filters & search -->
+      <div class="filter-row">
+        <div class="filter-pills">
+          <button class="filter-pill active" data-filter="all" onclick="setFilter('all', this)">All</button>
+          <button class="filter-pill" data-filter="link"  onclick="setFilter('link',  this)">🔗 Links</button>
+          <button class="filter-pill" data-filter="note"  onclick="setFilter('note',  this)">📝 Notes</button>
+          <button class="filter-pill" data-filter="video" onclick="setFilter('video', this)">🎬 Videos</button>
+          <button class="filter-pill" data-filter="doc"   onclick="setFilter('doc',   this)">📄 Docs</button>
+          <button class="filter-pill" data-filter="other" onclick="setFilter('other', this)">📦 Other</button>
+        </div>
+        <div class="search-wrap">
+          <i class="fas fa-search"></i>
+          <input class="search-inp" id="search-inp" type="text" placeholder="Search…" oninput="renderResources()">
+        </div>
+      </div>
+
+      <!-- Resource cards grid -->
+      <div class="res-grid" id="res-grid">
+        <div class="empty-res">
+          <i class="fas fa-book-open"></i>
+          <p>No resources yet. Add your first study link or note above.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+      <p>© 2026 UniHub &nbsp;·&nbsp;
+        <a href="index.html">Home</a> &nbsp;·&nbsp;
+        <a href="dashboard.html">Dashboard</a> &nbsp;·&nbsp;
+        <a href="focus.html">Focus</a> &nbsp;·&nbsp;
+        <a href="gpa.html">GPA</a> &nbsp;·&nbsp;
+        <a href="resources.html">Resources</a> &nbsp;·&nbsp;
+        <button class="footer-reset-btn" onclick="confirmResetSiteData(event)"><i class="fas fa-trash-alt"></i> Reset Site</button>
+      </p>
+      <p style="margin-top:6px;font-size:0.74rem;color:var(--text-muted);">
+        <i class="fas fa-lock" style="color:var(--accent-emerald);"></i>
+        All resources are saved to your browser's localStorage — nothing is sent to any server.
+      </p>
+    </footer>
+  </div>
+
+  <script src="nav.js"></script>
+  <script src="resources.js"></script>
+</body>
+</html>
