@@ -106,6 +106,9 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 body {
@@ -120,6 +123,8 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -669,6 +674,16 @@ h1, h2, h3, h4, h5, h6 {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Constrain all page main wrapper elements to prevent flex stretching */
+.dash-wrap, .gpa-wrap, .focus-body, .resources-body {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 /* ===== HERO PAGE TOP BANNER ===== */
