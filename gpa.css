@@ -524,3 +524,62 @@ tr:hover td {
   border: 1px solid rgba(244, 63, 94, 0.15);
 }
 
+/* ===== MOBILE RESPONSIVENESS OVERRIDES ===== */
+@media (max-width: 600px) {
+  /* GPA Wrapper Padding */
+  .gpa-wrap {
+    padding: 1.5rem 1rem;
+  }
+
+  /* Segmented Toggle Control Layout */
+  .student-toggle-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .student-toggle-label {
+    text-align: center;
+  }
+  .segmented-control {
+    display: flex;
+    width: 100%;
+  }
+  .segment-btn {
+    flex: 1;
+    text-align: center;
+    padding: 8px 10px;
+    font-size: 0.78rem;
+  }
+
+  /* Action Buttons Stacking */
+  .action-row {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 10px;
+  }
+  .gpa-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 16px;
+    font-size: 0.8rem;
+    border-radius: 10px;
+  }
+
+  /* Custom Syllabus Upload Panel Adjustments */
+  .upload-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    text-align: center;
+  }
+  .upload-header-title {
+    justify-content: center;
+  }
+  .btn-template-download {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+

@@ -506,3 +506,41 @@
 .dash-grid.full-width {
   grid-template-columns: 1fr;
 }
+
+/* ===== MOBILE RESPONSIVENESS OVERRIDES ===== */
+@media (max-width: 600px) {
+  .dash-wrap {
+    padding: 1.5rem 1rem;
+  }
+  .quick-links {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .quick-link {
+    padding: 1rem 0.8rem;
+  }
+  .quick-link i {
+    font-size: 1.4rem;
+  }
+  .quick-link span {
+    font-size: 0.78rem;
+  }
+  .quick-link small {
+    display: none; /* Hide description to keep cards compact on mobile */
+  }
+
+  .timetable-table {
+    min-width: 550px; /* Prevent table from squishing and enable scroll within matrix wrapper */
+  }
+
+  .timetable-edit-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 10px;
+  }
+  .timetable-edit-label {
+    width: auto;
+  }
+}
+
