@@ -390,3 +390,17 @@
   #hero { padding: 2rem 1rem; }
   #features, #how, #cta { padding: 4rem 1rem; }
 }
+
+@media (max-width: 480px) {
+  .hero-stats {
+    flex-wrap: wrap;
+    gap: 1.2rem 1rem;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+  }
+  .stat-item {
+    flex: 1 1 40%;
+    text-align: center;
+  }
+}
+

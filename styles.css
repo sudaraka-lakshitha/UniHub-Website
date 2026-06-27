@@ -1197,3 +1197,81 @@ h1, h2, h3, h4, h5, h6 {
     transform: translate(-50%, -50%) scale(5);
   }
 }
+
+/* ===== MOBILE RESPONSIVENESS OVERRIDES ===== */
+@media (max-width: 600px) {
+  /* Navbar Compact Layout */
+  .navbar {
+    padding: 0 16px;
+    height: 70px;
+  }
+  .page-content {
+    padding-top: 70px;
+  }
+  .nav-links {
+    top: 70px !important;
+  }
+  .brand-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1.05rem;
+    border-radius: 10px;
+  }
+  .brand-text {
+    font-size: 1.15rem;
+  }
+  .navbar-actions {
+    gap: 6px;
+  }
+  .nav-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
+  }
+  .nav-btn .badge-count {
+    top: -4px;
+    right: -4px;
+    font-size: 0.6rem;
+    padding: 1px 4px;
+  }
+  .nav-divider {
+    display: none;
+  }
+
+  /* Responsive Dropdowns (align to Navbar container instead of small parent triggers) */
+  .navbar-actions > div {
+    position: static !important;
+  }
+  .dropdown-menu {
+    top: 76px !important;
+    right: 16px !important;
+    left: 16px !important;
+    width: auto !important;
+    max-width: none !important;
+    transform-origin: top right !important;
+  }
+
+  /* Responsive Modals */
+  .modal-container {
+    width: calc(100% - 32px) !important;
+    margin: 16px !important;
+    padding: 20px !important;
+  }
+
+  /* Responsive Toast Notifications */
+  .toast-container {
+    top: 86px !important;
+    right: 16px !important;
+    left: 16px !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+}
+
+@media (max-width: 400px) {
+  /* Hide brand text to fit actions on extremely narrow devices */
+  .brand-text {
+    display: none;
+  }
+}
+
